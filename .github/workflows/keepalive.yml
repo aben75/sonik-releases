@@ -1,0 +1,14 @@
+# 손익분석기 온라인 서버(Render 무료 플랜)가 잠들지 않게 5분마다 깨워 둔다.
+# 무료 플랜은 15분간 요청이 없으면 잠들고, 깨어나는 데 30초~1분이 걸린다.
+name: keep-warm
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+permissions: {}
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ping server
+        run: curl -fsS --max-time 30 https://sonik-analyzer.onrender.com/api/version > /dev/null || true
